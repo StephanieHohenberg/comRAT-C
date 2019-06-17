@@ -1,0 +1,16 @@
+<div class="card">
+  <ngb-accordion #acc="ngbAccordion" activeIds="graph-view-panel">
+    <ngb-panel id="graph-view-panel">
+      <ng-template ngbPanelHeader>
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="m-0">Graph View</h5>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="spinner">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

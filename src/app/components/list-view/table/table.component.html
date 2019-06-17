@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">word</th>
+    <th scope="col">probability</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of displayedLinkData; index as i">
+    <th scope="row">{{getRankOfWord(data.linkWord)}}</th>
+    <td>
+      <a [routerLink]="['/words']" [queryParams]="{w1: data.linkWord}">
+        <ngb-highlight [result]="data.linkWord" [term]="input.value"></ngb-highlight>
+      </a>
+    </td>
+    <td>
+      <ngb-highlight [result]="getPercentageLabel(data.probability)" [term]="input.value"></ngb-highlight>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<form>
+  <div class="form-group form-inline">
+    <input #input type="text"
+           class="completer-input form-control mdb-autocomplete mb-0"
+           placeholder="search"
+           (input)="getFilteredData(input.value);"
+           (keydown.enter)="getFilteredData(input.value);"
+    />
+  </div>
+</form>

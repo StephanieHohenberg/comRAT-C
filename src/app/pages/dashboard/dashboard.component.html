@@ -1,0 +1,17 @@
+<div class="container">
+  <p></p>
+  <div class="row">
+    <div class="col">
+      <app-input-view [inputWords]="inputWords" (inputWordsChange)="handleInputWordsChanged($event)"></app-input-view>
+    </div>
+  </div>
+  <p></p>
+  <div class="row">
+    <div class="col col-md-4 col-sm-12">
+      <app-list-view [inputWords]="inputWords" [linkData]="linkData"></app-list-view>
+    </div>
+    <div class="col col-md-8 col-sm-12">
+      <app-graph-view></app-graph-view>
+    </div>
+  </div>
+</div>

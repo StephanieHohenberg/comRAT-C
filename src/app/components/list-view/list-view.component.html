@@ -1,0 +1,17 @@
+<div class="card">
+  <ngb-accordion #acc="ngbAccordion" activeIds="list-view-panel">
+    <ngb-panel id="list-view-panel">
+      <ng-template ngbPanelHeader>
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="m-0">List View</h5>
+          <div>
+            <span class="badge badge-secondary ml-2">{{linkData.length}} associations</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-table [linkData]="linkData"></app-table>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

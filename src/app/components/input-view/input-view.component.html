@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="row">
+    <div class="col" [ngClass]="{'col-sm-6':isStartView === false}">
+      <input #input id="input" name="input" list="word-options" type="text"
+             class="custom-select mb-0"
+             placeholder="Enter a word"
+             (input)="getFilteredData(input.value); addWord(input.value, $event);"
+             (keydown.enter)="addWord(input.value, $event);"
+      />
+      <datalist #datalist id="word-options">
+        <option *ngFor="let option of options"
+                [value]="option">
+        </option>
+      </datalist>
+    </div>
+
+    <div class="col col-sm-6" *ngIf="!isStartView">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let word of inputWords; let i = index" [selectable]="true"
+                  [removable]="true" (removed)="removeWord(i)">
+          {{word}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-sm-6">
+      <small *ngIf="inputWords.length === 0 && options.length === 0" class="form-text text-muted"><b>Check an other
+        word!</b> This word does not exist in comRAT-C.
+      </small>
+      <small *ngIf="inputWords.length > 0 && options.length === 0" class="form-text text-muted"><b>Check other
+        words!</b> There are no common associations.
+      </small>
+    </div>
+    <div class="col col-sm-6">
+      <small *ngIf="inputWords.length === 3 && input.value.length > 0" class="form-text text-muted">The comRAT-C test is
+        <b>limited to 3 words</b>.
+      </small>
+    </div>
+  </div>
+</div>
