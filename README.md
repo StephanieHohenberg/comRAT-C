@@ -1,4 +1,7 @@
-# ComRATC
+# ComRAT-C
+
+comRAT-C is a test to evaluate human's creativity by the ability of finding a fourth word which is forming a compound word with 3 given words. 
+In context of my university course "User Centric Design", we were asked to visualize the data of the comRAT-C AI, created in a research project at my universty "Free University of Berlin"-
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.1.
 
