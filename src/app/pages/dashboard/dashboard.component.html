@@ -1,17 +1,20 @@
-<div class="container">
-  <p></p>
+<app-start-page id="top"></app-start-page>
+
+<div class="container" id="dashboard">
+  <p>&nbsp;</p>
   <div class="row">
     <div class="col">
-      <app-input-view [inputWords]="inputWords" (inputWordsChange)="handleInputWordsChanged($event)"></app-input-view>
+      <app-input-view [inputWords]="inputWords" [colors]="colors"></app-input-view>
     </div>
   </div>
-  <p></p>
+  <p>&nbsp;</p>
   <div class="row">
-    <div class="col col-md-4 col-sm-12">
-      <app-list-view [inputWords]="inputWords" [linkData]="linkData"></app-list-view>
+    <div class="col col-md-4 col-sm-12" *ngIf="!isGraphViewFullscreen">
+      <app-list-view [inputWords]="inputWords" [colors]="colors"></app-list-view>
     </div>
-    <div class="col col-md-8 col-sm-12">
-      <app-graph-view></app-graph-view>
+    <div class="col col-md-8 col-sm-12"
+         [ngClass]="{'col-md-12': isGraphViewFullscreen, 'col-md-8': !isGraphViewFullscreen}">
+      <app-graph-view (viewSizeChanged)="changePanelSize($event)"></app-graph-view>
     </div>
   </div>
 </div>

@@ -1,33 +1,40 @@
+<div>
+  <form>
+    <div class="form-group form-inline">
+      <input #input type="text"
+             class="completer-input form-control mdb-autocomplete mb-0"
+             placeholder="filter list"
+             (input)="getFilteredData(input.value);"
+             (keydown.enter)="getFilteredData(input.value);"
+      />
+    </div>
+  </form>
+</div>
 <table class="table table-striped">
   <thead>
   <tr>
     <th scope="col">#</th>
     <th scope="col">word</th>
-    <th scope="col">probability</th>
+    <th scope="col">
+      <span *ngIf="explorationMode">#associations</span>
+      <span *ngIf="!explorationMode">strength</span>
+    </th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of displayedLinkData; index as i">
-    <th scope="row">{{getRankOfWord(data.linkWord)}}</th>
+  <tr *ngFor="let data of displayedTableData; index as i">
+    <th scope="row">{{data.rank}}</th>
     <td>
-      <a [routerLink]="['/words']" [queryParams]="{w1: data.linkWord}">
-        <ngb-highlight [result]="data.linkWord" [term]="input.value"></ngb-highlight>
+      <span *ngIf="data.pre != undefined && data.pre"><small>{{displayedWord}}&nbsp;</small></span>
+      <a [routerLink]="['/words']" [queryParams]="{w1: data.label}">
+        <ngb-highlight [result]="data.label" [term]="input.value"></ngb-highlight>
       </a>
+      <span *ngIf="data.pre != undefined && !data.pre"><small>&nbsp;{{displayedWord}}</small></span>
     </td>
     <td>
-      <ngb-highlight [result]="getPercentageLabel(data.probability)" [term]="input.value"></ngb-highlight>
+      <ngb-highlight [result]="data.link_strength" [term]="input.value"></ngb-highlight>
     </td>
   </tr>
   </tbody>
 </table>
 
-<form>
-  <div class="form-group form-inline">
-    <input #input type="text"
-           class="completer-input form-control mdb-autocomplete mb-0"
-           placeholder="search"
-           (input)="getFilteredData(input.value);"
-           (keydown.enter)="getFilteredData(input.value);"
-    />
-  </div>
-</form>

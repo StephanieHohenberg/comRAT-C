@@ -13,4 +13,10 @@ export class StartPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  private scrollToDashboard(): void {
+    const element = document.getElementById("dashboard");
+    element.scrollIntoView({block: "end", behavior: "smooth"});
+  }
+
+
 }

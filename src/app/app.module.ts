@@ -9,12 +9,21 @@ import {TableComponent} from "./components/list-view/table/table.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
-import {MatChipsModule, MatIconModule, MatProgressSpinnerModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatChipsModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  MatTooltipModule
+} from "@angular/material";
 import {BrowserModule} from "@angular/platform-browser";
 import {APP_ROUTES} from "../app.routes";
 import {RouterModule} from "@angular/router";
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {StartPageComponent} from "./pages/start-page/start-page.component";
+import {AngularNeo4jModule} from "angular-neo4j";
+import {DataService} from "./services/data.service";
+import {ComponentInteractionService} from "./services/component-interaction.service";
 
 @NgModule({
   declarations: [
@@ -33,6 +42,7 @@ import {StartPageComponent} from "./pages/start-page/start-page.component";
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(APP_ROUTES),
+    AngularNeo4jModule,
 
     //Bootstrap Modules
     NgbModule,
@@ -40,9 +50,11 @@ import {StartPageComponent} from "./pages/start-page/start-page.component";
     //Angular Material Modules
     MatChipsModule,
     MatIconModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
-  providers: [],
+  providers: [DataService, ComponentInteractionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

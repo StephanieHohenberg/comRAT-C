@@ -6,3 +6,8 @@
 .card {
   height: 100%;
 }
+
+ngb-alert {
+  width: 100%;
+  margin: 5px;
+}

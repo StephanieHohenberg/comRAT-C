@@ -4,10 +4,31 @@
       <ng-template ngbPanelHeader>
         <div class="d-flex align-items-center justify-content-between">
           <h5 class="m-0">Graph View</h5>
+
+          <mat-icon *ngIf="!isFullscreen" (click)="changeViewSize(true)"
+                    matTooltip="display graph fullscreen & hide list view" matTooltipPosition="left"
+                    aria-label="fullscreen">
+            fullscreen
+          </mat-icon>
+          <mat-icon *ngIf="isFullscreen" (click)="changeViewSize(false)"
+                    matTooltip="show list view" matTooltipPosition="left" aria-label="fullscreen_exit">
+            fullscreen_exit
+          </mat-icon>
+
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div class="spinner">
+        <div *ngIf="hasFailed" class="row">
+          <ngb-alert type="danger" (close)="hasFailed=false">
+            <b>Sorry!</b><br/>The connection to our Graph Visualization Server could not be established.
+          </ngb-alert>
+        </div>
+
+        <div class="row">
+          <!--<angular-neo4j></angular-neo4j>-->
+        </div>
+
+        <div *ngIf="isLoading" class="spinner">
           <mat-spinner></mat-spinner>
         </div>
       </ng-template>

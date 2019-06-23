@@ -1,0 +1,28 @@
+.btn-word-1, .btn-word-1:focus, .btn-word-1-active:hover {
+  background-color: white !important;
+  border-color: purple !important;
+  color: purple !important;
+}
+
+.btn-word-1-active, .btn-word-1:hover {
+  background-color: purple !important;
+  color: white !important;
+}
+
+.inactive {
+  background-color: white !important;
+}
+
+.active {
+  color: white !important;
+}
+
+.active:hover {
+  background-color: white !important;
+  color: inherit !important;
+}
+
+ngb-alert {
+  width: 100%;
+  margin: 5px;
+}

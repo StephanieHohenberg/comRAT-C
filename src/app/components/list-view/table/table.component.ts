@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from "@angular/core";
-import {LinkData} from "../../../models/list.data";
+import {TableData} from "../../../models/list.data";
 
 @Component({
   selector: 'app-table',
@@ -8,33 +8,29 @@ import {LinkData} from "../../../models/list.data";
 })
 export class TableComponent implements OnInit, OnChanges {
 
-  @Input()
-  public linkData: LinkData[] = [];
-  public displayedLinkData: LinkData[];
+  @Input() public displayedWord: string;
+  @Input() public tableData: TableData[] = [];
+  @Input() public explorationMode: boolean = true;
+
+  public displayedTableData: TableData[];
 
   constructor() {
-    console.log(this.linkData);
-    this.displayedLinkData = Object.assign(this.linkData, {});
+    console.log(this.tableData);
+    this.displayedTableData = Object.assign(this.tableData, {});
   }
 
   ngOnInit() {
   }
 
   ngOnChanges() {
-    this.displayedLinkData = Object.assign(this.linkData, {});
+    this.displayedTableData = Object.assign(this.tableData, {});
   }
 
 
   public getFilteredData(searchText: string): void {
-    this.displayedLinkData = this.linkData.filter((data: any) => data.linkWord.toLowerCase().includes(searchText.toLowerCase()));
+    this.displayedTableData = this.tableData.filter((data: TableData) => data.label.toLowerCase().includes(searchText.toLowerCase()));
   }
 
-  public getRankOfWord(word: string): number {
-    return this.linkData.findIndex(data => data.linkWord === word) + 1;
-  }
 
-  public getPercentageLabel(probability: number): string {
-    return `${probability} %`;
-  }
 
 }

@@ -1,6 +1,6 @@
 <div class="card">
   <div class="row">
-    <div class="col" [ngClass]="{'col-sm-6':isStartView === false}">
+    <div class="col col-sm-6">
       <input #input id="input" name="input" list="word-options" type="text"
              class="custom-select mb-0"
              placeholder="Enter a word"
@@ -14,12 +14,16 @@
       </datalist>
     </div>
 
-    <div class="col col-sm-6" *ngIf="!isStartView">
+    <div class="col col-sm-6">
       <mat-chip-list #chipList>
-        <mat-chip *ngFor="let word of inputWords; let i = index" [selectable]="true"
-                  [removable]="true" (removed)="removeWord(i)">
+        <mat-chip *ngFor="let word of inputWords; let i = index"
+                  [ngStyle]="{'background-color': colors[i]}"
+                  [selectable]="true" [removable]="true" (removed)="removeWord(i)">
           {{word}}
           <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <mat-chip class="explorationChip" *ngIf="inputWords.length >= 1" (click)="removeWords()">
+          exploration mode
         </mat-chip>
       </mat-chip-list>
     </div>
@@ -27,11 +31,8 @@
 
   <div class="row">
     <div class="col col-sm-6">
-      <small *ngIf="inputWords.length === 0 && options.length === 0" class="form-text text-muted"><b>Check an other
+      <small *ngIf="options.length === 0" class="form-text text-muted"><b>Check an other
         word!</b> This word does not exist in comRAT-C.
-      </small>
-      <small *ngIf="inputWords.length > 0 && options.length === 0" class="form-text text-muted"><b>Check other
-        words!</b> There are no common associations.
       </small>
     </div>
     <div class="col col-sm-6">
