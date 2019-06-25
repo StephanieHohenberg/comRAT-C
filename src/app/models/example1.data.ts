@@ -2,36 +2,6 @@ import {LinkData} from "./list.data";
 
 export const EXAMPLE_1_DATA: LinkData[] = [
   {
-    "ID": 38010,
-    "word1": "cream",
-    "link_strength": 1333,
-    "word2": "cheese"
-  },
-  {
-    "ID": 133985,
-    "word1": "Parmesan",
-    "link_strength": 1151,
-    "word2": "cheese"
-  },
-  {
-    "ID": 72364,
-    "word1": "goat",
-    "link_strength": 963,
-    "word2": "cheese"
-  },
-  {
-    "ID": 26800,
-    "word1": "cheddar",
-    "link_strength": 567,
-    "word2": "cheese"
-  },
-  {
-    "ID": 18061,
-    "word1": "blue",
-    "link_strength": 507,
-    "word2": "cheese"
-  },
-  {
     "ID": 37195,
     "word1": "cottage",
     "link_strength": 342,

@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
 
   private routeSubscription: Subscription;
   public inputWords: string[] = [];
-  public colors: string[] = ['#3aafa9', '#ff1020', '#ffbb20'];
+  public colors: string[] = ['#3aafa9', '#de0f3f', '#ffbd4a'];
   public isGraphViewFullscreen = false;
 
 

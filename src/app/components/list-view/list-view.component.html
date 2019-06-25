@@ -3,9 +3,6 @@
     <ngb-panel id="list-view-panel">
       <ng-template ngbPanelHeader>
         <div>
-          <div>
-            <mat-icon aria-label="list">list</mat-icon>
-          </div>
           <button *ngFor="let word of inputWords; let i = index"
                   type="button" class="btn btn-sm btn-outline-light ml-2"
                   [ngStyle]="{'background-color': colors[i], 'border-color': colors[i], 'color': colors[i]}"
@@ -13,20 +10,24 @@
                   (click)="toogleWordDisplayStatus(i)" (dblclick)="displaySingleWordWithIndex(i)">
             {{word}}
           </button>
+          <span class="explorationChip" *ngIf="inputWords.length === 0">
+            &nbsp; exploration mode &nbsp;
+          </span>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="tableData.length === 0 && getDisplayedWords().length > 0" class="row">
-          <ngb-alert type="danger" (close)="hasFailed=false">
-            <b>Sorry!</b> <br/> These view is not established yet.
-            <!-- There are no common associations !-->
+        <div *ngIf="tableData.length === 0 && getDisplayedWords().length > 0 && showErrorMessage" class="row">
+          <ngb-alert type="secondary" (close)="showErrorMessage=false">
+            <b>Sorry!</b> <br/> There are no linked words between
+            <span *ngFor="let word of getDisplayedWords()"> {{word}} </span>
           </ngb-alert>
         </div>
 
         <app-table *ngIf="tableData.length > 0"
                    [tableData]="tableData"
                    [explorationMode]="explorationMode"
-                   [displayedWord]="getDisplayedWords()[0]">
+                   [displayedWords]="getDisplayedWords()"
+                   [colors]="getColorsOfDisplayedWords()">
         </app-table>
       </ng-template>
     </ngb-panel>

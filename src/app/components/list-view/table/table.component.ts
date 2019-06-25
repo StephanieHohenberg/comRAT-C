@@ -8,9 +8,10 @@ import {TableData} from "../../../models/list.data";
 })
 export class TableComponent implements OnInit, OnChanges {
 
-  @Input() public displayedWord: string;
+  @Input() public displayedWords: string[];
   @Input() public tableData: TableData[] = [];
   @Input() public explorationMode: boolean = true;
+  @Input() public colors: string[];
 
   public displayedTableData: TableData[];
 

@@ -13,6 +13,15 @@
   background-color: white !important;
 }
 
+.explorationChip {
+  background-color: grey;
+  color: white;
+  padding: 5px;
+  width: fit-content;
+  border-radius: 25px 25px 25px 25px;
+  font-size: 14px;
+}
+
 .active {
   color: white !important;
 }

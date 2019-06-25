@@ -1,9 +1,8 @@
 .card {
-  padding: 20px;
   height: 100%;
 }
 
-mat-chip, mat-icon {
+mat-chip, mat-chip > mat-icon {
   color: white !important;
 }
 

@@ -1,3 +1,7 @@
 form {
   float: right
 }
+
+input {
+  color: lightgrey;
+}

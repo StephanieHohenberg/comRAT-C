@@ -1,0 +1,16 @@
+@import "../../../styles.scss";
+
+.container {
+  text-align: center;
+  height: 100%;
+}
+
+button {
+  background-color: $word1color;
+  color: white;
+}
+
+img {
+  width: 40vh;
+  height: 40vh;
+}

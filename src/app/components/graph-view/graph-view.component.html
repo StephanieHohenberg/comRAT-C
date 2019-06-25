@@ -5,15 +5,17 @@
         <div class="d-flex align-items-center justify-content-between">
           <h5 class="m-0">Graph View</h5>
 
-          <mat-icon *ngIf="!isFullscreen" (click)="changeViewSize(true)"
-                    matTooltip="display graph fullscreen & hide list view" matTooltipPosition="left"
-                    aria-label="fullscreen">
-            fullscreen
-          </mat-icon>
-          <mat-icon *ngIf="isFullscreen" (click)="changeViewSize(false)"
-                    matTooltip="show list view" matTooltipPosition="left" aria-label="fullscreen_exit">
-            fullscreen_exit
-          </mat-icon>
+          <div>
+            <mat-icon *ngIf="!isFullscreen" (click)="changeViewSize(true)"
+                      matTooltip="display graph fullscreen & hide list view" matTooltipPosition="left"
+                      aria-label="fullscreen">
+              fullscreen
+            </mat-icon>
+            <mat-icon *ngIf="isFullscreen" (click)="changeViewSize(false)"
+                      matTooltip="show list view" matTooltipPosition="left" aria-label="fullscreen_exit">
+              fullscreen_exit
+            </mat-icon>
+          </div>
 
         </div>
       </ng-template>

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {LinkData, TableData, WordData} from "../../models/list.data";
+import {CommonLinkData, LinkData, TableData, WordData} from "../../models/list.data";
 import {DataService} from "../../services/data.service";
 import {ComponentInteractionService} from "../../services/component-interaction.service";
 import {Subscription} from "rxjs/index";
@@ -17,6 +17,7 @@ export class ListViewComponent implements OnInit {
   public wordsDisplayStatus: boolean[] = [false, false, false];
   public tableData: TableData[] = [];
   public explorationMode: boolean = false;
+  public showErrorMessage: boolean = true;
 
   constructor(private dataService: DataService, private componentInteractionService: ComponentInteractionService) {
   }
@@ -47,6 +48,10 @@ export class ListViewComponent implements OnInit {
   }
 
   private toogleWordDisplayStatus(index: number) {
+    if (this.getDisplayedWords().length === 1 && this.wordsDisplayStatus[index]) {
+      return;  //TODO: evtl Feedback, Fehlermeldung
+    }
+
     this.wordsDisplayStatus[index] = !this.wordsDisplayStatus[index];
     this.displayLinkDataOfDisplayedWords();
   }
@@ -59,6 +64,7 @@ export class ListViewComponent implements OnInit {
 
   private displayLinkDataOfDisplayedWords() {
     this.tableData = [];
+    this.showErrorMessage = true;
 
     if (this.getDisplayedWords().length === 0) {
       this.explorationMode = true;
@@ -69,11 +75,21 @@ export class ListViewComponent implements OnInit {
       let displayedWord = this.getDisplayedWords()[0];
       let linkData = this.dataService.getAllLinksOfWord(displayedWord);
       this.mapLinkDataToTableData(linkData, displayedWord);
+    } else {
+      let commonLinkData = this.dataService.getAllCommonLinksOfWords(this.getDisplayedWords());
+      this.mapCommonLinkDataToTableData(commonLinkData, this.getDisplayedWords());
+
     }
   }
 
   public getDisplayedWords(): string[] {
     return this.inputWords.filter((value, index) => this.wordsDisplayStatus[index]);
+  }
+
+  //TODO Meldung falls 2Inputwörter direkt connected sind
+
+  public getColorsOfDisplayedWords(): string[] {
+    return this.colors.filter((value, index) => this.wordsDisplayStatus[index]);
   }
 
 
@@ -83,9 +99,21 @@ export class ListViewComponent implements OnInit {
       let pre: boolean = linkData[i].word1.toLowerCase() === word.toLowerCase();
       this.tableData.push({
         rank: i + 1,
-        link_strength: linkData[i].link_strength,
+        link_strength: [linkData[i].link_strength],
         label: pre ? linkData[i].word2.toLowerCase() : linkData[i].word1.toLowerCase(),
         pre: pre,
+      });
+    }
+  }
+
+  private mapCommonLinkDataToTableData(linkData: CommonLinkData[], words: string[]): void {
+    this.tableData = [];
+    for (let i = 0; i < linkData.length; i++) {
+      this.tableData.push({
+        rank: i + 1,
+        link_strength: linkData[i].link_strength,
+        label: linkData[i].word,
+        pre: undefined,
       });
     }
   }
@@ -95,7 +123,7 @@ export class ListViewComponent implements OnInit {
     for (let i = 0; i < wordData.length; i++) {
       this.tableData.push({
         rank: i + 1,
-        link_strength: wordData[i].associationAmount,
+        link_strength: [wordData[i].associationAmount],
         label: wordData[i].word,
         pre: undefined,
       });

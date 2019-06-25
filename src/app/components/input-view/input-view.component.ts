@@ -13,6 +13,7 @@ export class InputViewComponent implements OnInit {
   @Input() public inputWords: string[] = [];
   @Input() public colors: string[] = [];
   public options: string[] = [];
+  public hasHistory: boolean = true; //TODO:
 
   constructor(private componentInteractionService: ComponentInteractionService,
               private dataService: DataService, private router: Router) {
@@ -56,21 +57,25 @@ export class InputViewComponent implements OnInit {
     }
   }
 
-  removeWord(index: number) {
+  public removeWord(index: number): void {
     this.inputWords.splice(index, 1);
     this.componentInteractionService.handleInputWordsChanged(this.inputWords);
     this.navigateToDashboard();
   }
 
-  removeWords() {
+  public removeWords(): void {
     this.inputWords = [];
     this.componentInteractionService.handleInputWordsChanged(this.inputWords);
     this.navigateToDashboard();
   }
 
 
-  getFilteredData(searchText: string) {
+  public getFilteredData(searchText: string): void {
     this.options = this.dataService.getAllExistingWords().filter((data: any) => data.toLowerCase().includes(searchText.toLowerCase()));
+  }
+
+  public openHistoryModal(): void {
+    //TODO:
   }
 
 }
