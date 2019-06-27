@@ -1,9 +1,9 @@
 <div>
   <form>
     <div class="form-group form-inline">
-      <input #input type="text"
+      <input #input type="text" id="filter"
              class="completer-input form-control mdb-autocomplete mb-0"
-             placeholder="highlight"
+             placeholder="filter table ..."
              (input)="getFilteredData(input.value);"
              (keydown.enter)="getFilteredData(input.value);"
       />

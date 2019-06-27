@@ -16,19 +16,24 @@ export class TableComponent implements OnInit, OnChanges {
   public displayedTableData: TableData[];
 
   constructor() {
-    console.log(this.tableData);
-    this.displayedTableData = Object.assign(this.tableData, {});
   }
 
   ngOnInit() {
+    this.displayedTableData = Object.assign(this.tableData, {});
   }
 
   ngOnChanges() {
     this.displayedTableData = Object.assign(this.tableData, {});
+    let searchText = (<HTMLInputElement>document.getElementById("filter")).value;
+    if (searchText != undefined && searchText.length > 0) {
+      this.getFilteredData(searchText);
+    }
+
   }
 
 
   public getFilteredData(searchText: string): void {
+    console.log(searchText);
     this.displayedTableData = this.tableData.filter((data: TableData) => data.label.toLowerCase().includes(searchText.toLowerCase()));
   }
 
