@@ -7,18 +7,28 @@ import {EXAMPLE_1_DATA} from "../models/example1.data";
 })
 export class DataService {
 
+  private DATA: LinkData[] = EXAMPLE_1_DATA;
+
   constructor() {
   }
 
 
   public getAllExistingWords(): string[] {
-    let data: LinkData[] = EXAMPLE_1_DATA;
+    let data: LinkData[] = this.DATA;
     let words1 = data.map(e => e.word1.toLowerCase());
     let words2 = data.map(e => e.word2.toLowerCase());
     let words = words1.concat(words2);
     return words.filter((value, index, self) => {
       return self.indexOf(value) === index
     });
+  }
+
+  public getNumberOfWords(): number {
+    return this.getAllExistingWords().length;
+  }
+
+  public getNumberOfLinks(): number {
+    return this.DATA.length;
   }
 
   public doesWordExist(word: string): boolean {
@@ -42,7 +52,7 @@ export class DataService {
   }
 
   public getAllLinksOfWord(word: string): LinkData[] {
-    let data: LinkData[] = EXAMPLE_1_DATA.sort((a, b) => b.link_strength - a.link_strength);
+    let data: LinkData[] = this.DATA.sort((a, b) => b.link_strength - a.link_strength);
     return data.filter((e) => e.word1.toLowerCase() === word.toLowerCase()
     || e.word2.toLowerCase() === word.toLowerCase());
   }
