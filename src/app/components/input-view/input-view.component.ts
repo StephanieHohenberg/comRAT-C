@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data.service";
 import {ComponentInteractionService} from "../../services/component-interaction.service";
@@ -8,7 +8,7 @@ import {ComponentInteractionService} from "../../services/component-interaction.
   templateUrl: './input-view.component.html',
   styleUrls: ['./input-view.component.css']
 })
-export class InputViewComponent implements OnInit {
+export class InputViewComponent implements OnInit, OnChanges {
 
   @Input() public inputWords: string[] = [];
   @Input() public colors: string[] = [];
@@ -20,17 +20,25 @@ export class InputViewComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.options = this.dataService.getAllExistingWords();
+    this.options = this.getDefaultOptions();
+  }
+
+  public ngOnChanges(): void {
+    let searchText = '';
+    if ((<HTMLInputElement>document.getElementById("input"))) {
+      searchText = (<HTMLInputElement>document.getElementById("input")).value;
+    }
+    this.getFilteredData(searchText);
   }
 
   public addWord(value: string, event): void {
-    if (this.inputWords.findIndex(e => e === value) >= 0) {
-      (<HTMLInputElement>document.getElementById("input")).value;
-    } else if (this.inputWords.length < 3 && this.dataService.doesWordExist(value)) {
-      this.inputWords.push(value);
+    if (this.inputWords.findIndex(e => e === value) >= 0 && this.options.length === 0) {
+      (<HTMLInputElement>document.getElementById("input")).value = '';
+    } else if (this.inputWords.length < 3 && this.dataService.doesWordExist(value.toLowerCase())) {
+      this.inputWords.push(value.toLowerCase());
       this.componentInteractionService.handleInputWordsChanged(this.inputWords);
       this.navigateToDashboard();
-      (<HTMLInputElement>document.getElementById("input")).value;
+      (<HTMLInputElement>document.getElementById("input")).value = '';
     }
 
     if (event) {
@@ -70,8 +78,27 @@ export class InputViewComponent implements OnInit {
   }
 
 
+  private getDefaultOptions() {
+    return this.dataService.getAllExistingWords().sort();
+  }
+
   public getFilteredData(searchText: string): void {
-    this.options = this.dataService.getAllExistingWords().filter((data: any) => data.toLowerCase().includes(searchText.toLowerCase()));
+    if (searchText.length === 0) {
+      this.options = this.getDefaultOptions();
+    } else {
+      this.options = this.getDefaultOptions().filter((data: any) =>
+      data.includes(searchText.toLowerCase())
+      && this.inputWords.findIndex(word => data === word) < 0);
+    }
+  }
+
+  public isPartOfInputWord(searchText: string): boolean {
+    this.inputWords.forEach(word => {
+      if (word.includes(searchText.toLowerCase())) {
+        return true;
+      }
+    });
+    return false;
   }
 
   public openHistoryModal(): void {
