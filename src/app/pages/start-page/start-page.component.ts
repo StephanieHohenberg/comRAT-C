@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-start-page',
@@ -12,7 +13,12 @@ export class StartPageComponent implements OnInit {
   public scrolledDown: boolean = false;
   public hasHistory: boolean = true;
 
-  constructor() {
+  public numberOfWords: number = 0;
+  public numberOfLinks: number = 0;
+
+  constructor(private dataService: DataService) {
+    this.numberOfWords = this.dataService.getNumberOfWords();
+    this.numberOfLinks = this.dataService.getNumberOfLinks();
   }
 
   ngOnInit() {
