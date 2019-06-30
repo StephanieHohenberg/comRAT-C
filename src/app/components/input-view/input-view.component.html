@@ -3,7 +3,7 @@
     <ngb-panel id="graph-view-panel">
       <ng-template ngbPanelHeader>
         <div class="d-flex align-items-center justify-content-between">
-          <h5 class="m-0">comRAT-C</h5>
+          <h5 class="m-0"></h5>
 
           <div>
             <mat-icon *ngIf="hasHistory" (click)="openHistoryModal()"
@@ -21,17 +21,20 @@
       <ng-template ngbPanelContent>
         <div class="row">
           <div class="col col-sm-6">
-            <input #input id="input" name="input" list="word-options" type="text"
-                   class="custom-select mb-0"
-                   placeholder="search ..."
-                   (input)="getFilteredData(input.value); addWord(input.value, $event);"
-                   (keydown.enter)="addWord(input.value, $event);"
-            />
-            <datalist #datalist id="word-options">
-              <option *ngFor="let option of options"
-                      [value]="option">
-              </option>
-            </datalist>
+            <div class="input-container">
+              <i class='icon fas fa-search'></i>
+              <input #input id="input" name="input" list="word-options" type="text"
+                     class="input-field form-control mb-0"
+                     placeholder="search ..."
+                     (input)="getFilteredData(input.value); addWord(input.value, $event);"
+                     (keydown.enter)="addWord(input.value, $event);"
+              />
+              <datalist #datalist id="word-options">
+                <option *ngFor="let option of options"
+                        [value]="option">
+                </option>
+              </datalist>
+            </div>
           </div>
 
           <div class="col col-sm-6">

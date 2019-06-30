@@ -8,5 +8,36 @@ mat-chip, mat-chip > mat-icon {
 
 .explorationChip {
   background-color: grey !important;
+  cursor: pointer
 }
 
+/* Style the input container */
+.input-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.input-field {
+  border-radius: 0 10px 10px 0;
+}
+
+.input-field::placeholder {
+  color: grey;
+}
+
+.icon {
+  border-radius: 10px 0 0 10px;
+  border: solid 1px;
+  border-right: none;
+  border-color: lightgrey;
+  padding: 10px;
+  background: transparent;
+  color: grey;
+  min-width: 40px;
+  text-align: center;
+}
+
+input:active + .icon {
+  border: solid 2px;
+}
