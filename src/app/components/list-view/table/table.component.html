@@ -1,12 +1,16 @@
 <div>
   <form>
     <div class="form-group form-inline">
-      <input #input type="text" id="filter"
-             class="completer-input form-control mdb-autocomplete mb-0"
-             placeholder="filter table ..."
-             (input)="getFilteredData(input.value);"
-             (keydown.enter)="getFilteredData(input.value);"
-      />
+
+      <div class="input-container">
+        <i class='icon fas fa-filter'></i>
+        <input #input type="text" id="filter"
+               class="input-field completer-input form-control mdb-autocomplete mb-0"
+               placeholder="filter table ..."
+               (input)="getFilteredData(input.value);"
+               (keydown.enter)="getFilteredData(input.value);"
+        />
+      </div>
     </div>
   </form>
 </div>
@@ -16,7 +20,7 @@
     <th scope="col">#</th>
     <th scope="col">word</th>
     <th scope="col">
-      <span *ngIf="explorationMode">#associations</span>
+      <span *ngIf="explorationMode">#links</span>
       <span *ngIf="!explorationMode">strength</span>
     </th>
   </tr>
