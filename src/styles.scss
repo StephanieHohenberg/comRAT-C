@@ -10,3 +10,10 @@ html, body {
   width: 100%;
 }
 
+mat-icon {
+  cursor: pointer;
+}
+
+a:not([href]):hover {
+  text-decoration: underline;
+}

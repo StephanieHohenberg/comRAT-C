@@ -1,16 +1,21 @@
 @import "../../../styles.scss";
 
 .container {
+  padding-top: 20vh;
   text-align: center;
   height: 100%;
 }
 
 button {
+  margin-top: 5vh;
   background-color: $word1color;
   color: white;
+  width: 30vh;
+  height: 30vh;
 }
 
 img {
-  width: 40vh;
-  height: 40vh;
+  border-radius: 75px 75px 75px 75px;
+  width: 20vh;
+  height: 20vh;
 }
