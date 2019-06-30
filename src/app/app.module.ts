@@ -24,6 +24,7 @@ import {StartPageComponent} from "./pages/start-page/start-page.component";
 import {AngularNeo4jModule} from "angular-neo4j";
 import {DataService} from "./services/data.service";
 import {ComponentInteractionService} from "./services/component-interaction.service";
+import {CytoscapeGraphComponent} from "./components/graph-view/cytoscape-graph/cytoscape-graph.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {ComponentInteractionService} from "./services/component-interaction.serv
     InputViewComponent,
     TableComponent,
     StartPageComponent,
-    DashboardComponent
+    DashboardComponent,
+    CytoscapeGraphComponent
   ],
   imports: [
     BrowserModule,

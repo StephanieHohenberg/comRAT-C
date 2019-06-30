@@ -3,7 +3,18 @@
     <ngb-panel id="graph-view-panel">
       <ng-template ngbPanelHeader>
         <div class="d-flex align-items-center justify-content-between">
-          <h5 class="m-0">Graph View</h5>
+          <h6 class="m-0">
+            <span *ngIf="inputWords.length === 0">exploration mode</span>
+            <span *ngIf="inputWords.length > 0">
+              TOP 3 LINKS of
+              <span *ngFor="let word of inputWords; let i=index"
+                    [ngStyle]="{'color': colors[i]}">{{word}}
+                <span style="color: black" *ngIf="i==0 && inputWords.length ===3">, </span>
+                <span style="color: black" *ngIf="inputWords.length>1 && i== inputWords.length-2">& </span>
+              </span>
+              <span *ngIf="inputWords.length>1"> and common links</span>
+            </span>
+          </h6>
 
           <div>
             <mat-icon *ngIf="!isFullscreen" (click)="changeViewSize(true)"
@@ -20,19 +31,13 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="hasFailed" class="row">
-          <ngb-alert type="danger" (close)="hasFailed=false">
-            <b>Sorry!</b><br/>The connection to our Graph Visualization Server could not be established.
-          </ngb-alert>
+        <div class="graph-row">
+          <app-cytoscape-graph [elements]="graphData" (select)="nodeChange($event)"></app-cytoscape-graph>
         </div>
-
-        <div class="row">
-          <!--<angular-neo4j></angular-neo4j>-->
-        </div>
-
+        <!--
         <div *ngIf="isLoading" class="spinner">
           <mat-spinner></mat-spinner>
-        </div>
+        </div> -->
       </ng-template>
     </ngb-panel>
   </ngb-accordion>

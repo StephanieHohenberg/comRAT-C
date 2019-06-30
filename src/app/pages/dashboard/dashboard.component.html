@@ -14,7 +14,8 @@
     </div>
     <div class="col col-md-8 col-sm-12"
          [ngClass]="{'col-md-12': isGraphViewFullscreen, 'col-md-8': !isGraphViewFullscreen}">
-      <app-graph-view (viewSizeChanged)="changePanelSize($event)"></app-graph-view>
+      <app-graph-view [inputWords]="inputWords" (viewSizeChanged)="changePanelSize($event)"
+                      [colors]="colors"></app-graph-view>
     </div>
   </div>
 </div>

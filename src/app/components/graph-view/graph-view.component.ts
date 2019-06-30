@@ -1,5 +1,8 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from "@angular/core";
-import {AngularNeo4jService} from "angular-neo4j";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {GraphData} from "../../models/graph.data";
+import {Subscription} from "rxjs/index";
+import {ComponentInteractionService} from "../../services/component-interaction.service";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-graph-view',
@@ -7,44 +10,38 @@ import {AngularNeo4jService} from "angular-neo4j";
   styleUrls: ['./graph-view.component.css']
 })
 export class GraphViewComponent implements OnInit, OnDestroy {
-  constructor(private neo4j: AngularNeo4jService) {
-  }
+
+  public graphData: GraphData;
+  private inputWordsChangedsubscription: Subscription;
 
 
-  @Output()
-  private viewSizeChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-  private URL = 'bolt://localhost:7687';
-  private USERNAME = 'neo4j';
-  private PASSWORD = 'neo4j';
-  public isLoading = true;
-  public hasFailed = true;
+  @Output() private viewSizeChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() public inputWords: string[] = [];
+  @Input() public colors: string[] = [];
 
   public isFullscreen = false;
 
+  constructor(private dataService: DataService, private componentInteractionService: ComponentInteractionService) {
+  }
+
   public ngOnInit(): void {
-    this.neo4j
-      .connect(this.URL, this.USERNAME, this.PASSWORD, true)
-      .then(driver => {
-        if (driver) {
-          this.isLoading = false;
-          const query = 'MATCH (n:USER {name: {name}}) RETURN n';
-          const params = {name: 'bob'};
-
-          /**
-           this.neo4j.run(query, params).then(res => {
-            console.log(res);
-          });
-           **/
-
-        }
-      })
-      .catch(error => {
-        this.hasFailed = true;
-      });
+    this.graphData = this.dataService.getGraphDataOfWords(this.inputWords);
+    this.inputWordsChangedsubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(
+      (words: string[]) => {
+        this.inputWords = words;
+        this.graphData = this.dataService.getGraphDataOfWords(this.inputWords);
+      }
+    );
   }
 
   public ngOnDestroy(): void {
-    this.neo4j.disconnect()
+    if (this.inputWordsChangedsubscription) {
+      this.inputWordsChangedsubscription.unsubscribe();
+    }
+  }
+
+  public nodeChange(event): void {
+    console.log(event);
   }
 
   public changeViewSize(isFullscreen: boolean): void {
