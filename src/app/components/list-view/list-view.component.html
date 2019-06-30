@@ -3,13 +3,22 @@
     <ngb-panel id="list-view-panel">
       <ng-template ngbPanelHeader>
         <div>
-          <button *ngFor="let word of inputWords; let i = index"
-                  type="button" class="btn btn-sm btn-outline-light ml-2"
-                  [ngStyle]="{'background-color': colors[i], 'border-color': colors[i], 'color': colors[i]}"
-                  [ngClass]="{'active':wordsDisplayStatus[i], 'inactive':!wordsDisplayStatus[i]}"
-                  (click)="toogleWordDisplayStatus(i)" (dblclick)="displaySingleWordWithIndex(i)">
-            {{word}}
-          </button>
+          <span *ngFor="let word of inputWords; let i = index">
+            <button *ngIf="wordsDisplayStatus[i]"
+                    type="button" class="btn btn-sm btn-outline-light ml-2 active"
+                    [ngStyle]="hovered === i ? {'background-color': transparent, 'border-color': colors[i], 'color': colors[i]}
+                                                : {'background-color': colors[i], 'border-color': colors[i], 'color': 'white'}"
+                    (mouseover)="hovered = i" (mouseout)="hovered = -1" (click)="toogleWordDisplayStatus(i)">
+              {{word}}
+            </button>
+            <button *ngIf="wordsDisplayStatus[i] === false"
+                    type="button" class="btn btn-sm btn-outline-light ml-2"
+                    [ngStyle]="hovered === i+10 ? {'background-color': colors[i], 'border-color': colors[i], 'color': 'white'}
+                                                : {'background-color': transparent, 'border-color': colors[i], 'color': colors[i]}"
+                    (mouseover)="hovered = i+10" (mouseout)="hovered = -1" (click)="toogleWordDisplayStatus(i)">
+              {{word}}
+            </button>
+          </span>
           <span class="explorationChip" *ngIf="inputWords.length === 0">
             &nbsp; exploration mode &nbsp;
           </span>
@@ -19,7 +28,14 @@
         <div *ngIf="tableData.length === 0 && getDisplayedWords().length > 0 && showErrorMessage" class="row">
           <ngb-alert type="secondary" (close)="showErrorMessage=false">
             <b>Sorry!</b> <br/> There are no linked words between
-            <span *ngFor="let word of getDisplayedWords()"> {{word}} </span>
+            <span *ngFor="let word of getDisplayedWords(); let i = index">
+              <a href="javascript:void(0)"
+                 (click)="displaySingleWordWithIndex(getIndexOfWord(word))"
+                 [ngStyle]="{'color': getColorOfWord(word)}"> {{word}}</a>
+              <span *ngIf="i==0 && inputWords.length ===3">, </span>
+              <span *ngIf="inputWords.length>1 && i== inputWords.length-2">& </span>
+            </span>
+            Toogle the words to get more insights.
           </ngb-alert>
         </div>
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {CommonLinkData, LinkData, TableData, WordData} from "../../models/list.data";
 import {DataService} from "../../services/data.service";
 import {ComponentInteractionService} from "../../services/component-interaction.service";
@@ -9,7 +9,7 @@ import {Subscription} from "rxjs/index";
   templateUrl: './list-view.component.html',
   styleUrls: ['./list-view.component.css']
 })
-export class ListViewComponent implements OnInit {
+export class ListViewComponent implements OnInit, OnDestroy {
 
   @Input() public inputWords: string [] = [];
   @Input() public colors: string[] = [];
@@ -18,6 +18,7 @@ export class ListViewComponent implements OnInit {
   public tableData: TableData[] = [];
   public explorationMode: boolean = false;
   public showErrorMessage: boolean = true;
+  public hovered = -1;
 
   constructor(private dataService: DataService, private componentInteractionService: ComponentInteractionService) {
   }
@@ -37,6 +38,13 @@ export class ListViewComponent implements OnInit {
     }
   }
 
+  public getIndexOfWord(word: string): number {
+    return this.inputWords.findIndex(w => w == word);
+  }
+
+  public getColorOfWord(word: string): string {
+    return this.colors[this.getIndexOfWord(word)];
+  }
 
   private resolveInputWordsChanged(words: string[]) {
     this.inputWords = words;
@@ -71,14 +79,17 @@ export class ListViewComponent implements OnInit {
       let wordData: WordData[] = this.dataService.getWordDataOfAllWords();
       this.mapWordDataToTableData(wordData);
 
-    } else if (this.getDisplayedWords().length === 1) {
-      let displayedWord = this.getDisplayedWords()[0];
-      let linkData = this.dataService.getAllLinksOfWord(displayedWord);
-      this.mapLinkDataToTableData(linkData, displayedWord);
     } else {
-      let commonLinkData = this.dataService.getAllCommonLinksOfWords(this.getDisplayedWords());
-      this.mapCommonLinkDataToTableData(commonLinkData, this.getDisplayedWords());
+      this.explorationMode = false;
+      if (this.getDisplayedWords().length === 1) {
+        let displayedWord = this.getDisplayedWords()[0];
+        let linkData = this.dataService.getAllLinksOfWord(displayedWord);
+        this.mapLinkDataToTableData(linkData, displayedWord);
+      } else {
+        let commonLinkData = this.dataService.getAllCommonLinksOfWords(this.getDisplayedWords());
+        this.mapCommonLinkDataToTableData(commonLinkData, this.getDisplayedWords());
 
+      }
     }
   }
 
