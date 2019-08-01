@@ -15,7 +15,7 @@ export class NodeData {
 
   public id;
   public label: string;
-  public colorCode: string = "black";
+  public colorCode: string = "grey";
   public weight: number = 30;
 
   constructor(ID, word: string) {

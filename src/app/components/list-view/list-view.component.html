@@ -19,32 +19,32 @@
               {{word}}
             </button>
           </span>
-          <span class="explorationChip" *ngIf="inputWords.length === 0">
-            &nbsp; exploration mode &nbsp;
-          </span>
+          <span> &nbsp; </span>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="tableData.length === 0 && getDisplayedWords().length > 0 && showErrorMessage" class="row">
-          <ngb-alert type="secondary" (close)="showErrorMessage=false">
-            <b>Sorry!</b> <br/> There are no linked words between
-            <span *ngFor="let word of getDisplayedWords(); let i = index">
-              <a href="javascript:void(0)"
-                 (click)="displaySingleWordWithIndex(getIndexOfWord(word))"
-                 [ngStyle]="{'color': getColorOfWord(word)}"> {{word}}</a>
-              <span *ngIf="i==0 && inputWords.length ===3">, </span>
-              <span *ngIf="inputWords.length>1 && i== inputWords.length-2">& </span>
-            </span>
-            Toogle the words to get more insights.
-          </ngb-alert>
-        </div>
+        <div class="table-row">
+          <div *ngIf="tableData.length === 0 && getDisplayedWords().length > 0 && showErrorMessage" class="row">
+            <ngb-alert type="secondary" (close)="showErrorMessage=false">
+              <b>Sorry!</b> <br/> There are no linked words between
+              <span *ngFor="let word of getDisplayedWords(); let i = index">
+                <a href="javascript:void(0)"
+                   (click)="displaySingleWordWithIndex(getIndexOfWord(word))"
+                   [ngStyle]="{'color': getColorOfWord(word)}"> {{word}}</a>
+                <span *ngIf="i==0 && inputWords.length ===3">, </span>
+                <span *ngIf="inputWords.length>1 && i== inputWords.length-2">& </span>
+              </span>
+              Toogle the words to get more insights.
+            </ngb-alert>
+          </div>
 
-        <app-table *ngIf="tableData.length > 0"
-                   [tableData]="tableData"
-                   [explorationMode]="explorationMode"
-                   [displayedWords]="getDisplayedWords()"
-                   [colors]="getColorsOfDisplayedWords()">
-        </app-table>
+          <app-table *ngIf="tableData.length > 0"
+                     [tableData]="tableData"
+                     [explorationMode]="explorationMode"
+                     [displayedWords]="getDisplayedWords()"
+                     [colors]="getColorsOfDisplayedWords()">
+          </app-table>
+        </div>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>

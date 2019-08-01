@@ -1,0 +1,44 @@
+<div>
+  <form>
+    <div class="form-group form-inline">
+
+      <div class="input-container">
+        <i class='icon fas fa-filter'></i>
+        <input #input type="text" id="queryFilter"
+               class="input-field completer-input form-control mdb-autocomplete mb-0"
+               placeholder="filter table ..."
+               (input)="getFilteredData(input.value);"
+               (keydown.enter)="getFilteredData(input.value);"
+        />
+      </div>
+    </div>
+  </form>
+</div>
+<table class="table table-striped" id="table">
+  <thead>
+  <tr>
+    <th scope="col">timestamp</th>
+    <th scope="col">search query</th>
+    <th scope="col">
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let query of displayedQueries; let q = index">
+    <td scope="row">{{query.timestamp | date:'shortTime'}}</td>
+    <td>
+      <span *ngFor="let word of query.words; let i = index">
+        <a href="javascript:void(0)" [ngStyle]="{'color': colors[i]}" (click)="selectWord(word)">
+          <ngb-highlight [result]="word" [term]="input.value"></ngb-highlight>
+        </a>&nbsp;
+      </span>
+    </td>
+    <td>
+      <a href="javascript:void(0)" (click)="selectQuery(query)">
+        <i class='fas fa-location-arrow'></i> select
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

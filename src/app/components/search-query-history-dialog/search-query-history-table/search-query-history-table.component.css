@@ -1,19 +1,3 @@
-.card {
-  height: 100%;
-}
-
-mat-chip, mat-chip > mat-icon {
-  color: white !important;
-}
-
-.explorationChip {
-  position: absolute;
-  right: 5px;
-  background-color: grey !important;
-  cursor: pointer
-}
-
-/* Style the input container */
 .input-container {
   display: flex;
   width: 100%;
@@ -38,8 +22,4 @@ mat-chip, mat-chip > mat-icon {
   color: grey;
   min-width: 40px;
   text-align: center;
-}
-
-input:active + .icon {
-  border: solid 2px;
 }

@@ -9,7 +9,7 @@ import {EdgeData, EdgeDataWrapper, GraphData, NodeData, NodeDataWrapper} from ".
 export class DataService {
 
   private DATA: LinkData[] = EXAMPLE_1_DATA;
-  private colors: string[] = ['#3aafa9', '#de0f3f', '#ffbd4a'];
+  public colors: string[] = ['#3aafa9', '#9E379F', '#ff8000'];
 
   constructor() {
   }
@@ -146,7 +146,8 @@ export class DataService {
   public getGraphDataOfWords(words: string[]): GraphData {
     let nodeDataArray: NodeDataWrapper[] = [];
     let edgeDataArray: EdgeDataWrapper[] = [];
-    let graphNodeWords = [];
+    let addedNodeWords: string[] = [];
+    let addedEdgeIDs: number[] = [];
     let linkDataArray = this.getLinkDataForGraphData(words);
 
     //INPUTWORDS TO NODE DATA
@@ -158,29 +159,32 @@ export class DataService {
       nodeDataArray.push({
         data: nodeData
       });
-      graphNodeWords.push(words[i]);
+      addedNodeWords.push(words[i]);
     }
 
     //LINK DATA TO GRAPH DATA
     linkDataArray.forEach(linkData => {
       let IDw1 = this.getAllExistingWords().findIndex(w => w === linkData.word1.toLowerCase());
       let IDw2 = this.getAllExistingWords().findIndex(w => w === linkData.word2.toLowerCase());
-      if (graphNodeWords.findIndex(w => w === linkData.word1) < 0) {
+      if (addedNodeWords.findIndex(w => w === linkData.word1) < 0) {
         nodeDataArray.push({
           data: new NodeData(IDw1, linkData.word1)
         });
-        graphNodeWords.push(linkData.word1);
+        addedNodeWords.push(linkData.word1);
       }
-      if (graphNodeWords.findIndex(w => w === linkData.word2) < 0) {
+      if (addedNodeWords.findIndex(w => w === linkData.word2) < 0) {
         nodeDataArray.push({
           data: new NodeData(IDw2, linkData.word2)
         });
-        graphNodeWords.push(linkData.word2);
+        addedNodeWords.push(linkData.word2);
       }
 
-      edgeDataArray.push({
-        data: new EdgeData(IDw1, IDw2, linkData.ID, linkData.link_strength)
-      })
+      if (addedEdgeIDs.findIndex(id => id === linkData.ID) < 0) {
+        edgeDataArray.push({
+          data: new EdgeData(IDw1, IDw2, linkData.ID, linkData.link_strength)
+        });
+        addedEdgeIDs.push(linkData.ID);
+      }
     });
 
 
@@ -188,28 +192,44 @@ export class DataService {
       nodes: nodeDataArray,
       edges: edgeDataArray,
     };
-    /**
-     return graphData = {
-      nodes: [
-        {data: {id: 'a', name: 'Signup', weight: 100, colorCode: 'blue', shapeType: 'roundrectangle'}},
-        {data: {id: 'b', name: 'User Profile', weight: 100, colorCode: 'magenta', shapeType: 'roundrectangle'}},
-        {data: {id: 'c', name: 'Billing', weight: 100, colorCode: 'magenta', shapeType: 'roundrectangle'}},
-        {data: {id: 'd', name: 'Sales', weight: 100, colorCode: 'orange', shapeType: 'roundrectangle'}},
-        {data: {id: 'e', name: 'Referral', weight: 100, colorCode: 'orange', shapeType: 'roundrectangle'}},
-        {data: {id: 'f', name: 'Loan', weight: 100, colorCode: 'orange', shapeType: 'roundrectangle'}},
-        {data: {id: 'j', name: 'Support', weight: 100, colorCode: 'red', shapeType: 'ellipse'}},
-        {data: {id: 'k', name: 'Sink Event', weight: 100, colorCode: 'green', shapeType: 'ellipse'}}
-      ],
-      edges: [
-        {data: {source: 'a', target: 'b', colorCode: 'blue', strength: 10}},
-        {data: {source: 'b', target: 'c', colorCode: 'blue', strength: 10}},
-        {data: {source: 'c', target: 'd', colorCode: 'blue', strength: 10}},
-        {data: {source: 'c', target: 'e', colorCode: 'blue', strength: 10}},
-        {data: {source: 'c', target: 'f', colorCode: 'blue', strength: 10}},
-        {data: {source: 'e', target: 'j', colorCode: 'red', strength: 10}},
-        {data: {source: 'e', target: 'k', colorCode: 'green', strength: 10}}
-      ]
-    };**/
+  }
+
+  public getGraphDataForExplorationMode(): GraphData {
+    let nodeDataArray: NodeDataWrapper[] = [];
+    let edgeDataArray: EdgeDataWrapper[] = [];
+    let addedNodeWords: string[] = [];
+    let linkDataArray = this.DATA;
+
+    //LINK DATA TO GRAPH DATA
+    linkDataArray.forEach(linkData => {
+      if (this.getAllLinksOfWord(linkData.word1).length > 1 && this.getAllLinksOfWord(linkData.word2).length > 1) {
+        let IDw1 = this.getAllExistingWords().findIndex(w => w === linkData.word1.toLowerCase());
+        let IDw2 = this.getAllExistingWords().findIndex(w => w === linkData.word2.toLowerCase());
+
+        if (addedNodeWords.findIndex(w => w === linkData.word1) < 0) {
+          nodeDataArray.push({
+            data: new NodeData(IDw1, linkData.word1)
+          });
+          addedNodeWords.push(linkData.word1);
+        }
+        if (addedNodeWords.findIndex(w => w === linkData.word2) < 0) {
+          nodeDataArray.push({
+            data: new NodeData(IDw2, linkData.word2)
+          });
+          addedNodeWords.push(linkData.word2);
+        }
+
+        edgeDataArray.push({
+          data: new EdgeData(IDw1, IDw2, linkData.ID, linkData.link_strength)
+        })
+      }
+    });
+
+
+    return {
+      nodes: nodeDataArray,
+      edges: edgeDataArray,
+    };
   }
 
 }

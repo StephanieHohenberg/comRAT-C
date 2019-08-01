@@ -29,7 +29,11 @@ export class GraphViewComponent implements OnInit, OnDestroy {
     this.inputWordsChangedsubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(
       (words: string[]) => {
         this.inputWords = words;
-        this.graphData = this.dataService.getGraphDataOfWords(this.inputWords);
+        if (this.inputWords.length === 0) {
+          this.graphData = this.dataService.getGraphDataForExplorationMode();
+        } else {
+          this.graphData = this.dataService.getGraphDataOfWords(this.inputWords);
+        }
       }
     );
   }

@@ -1,9 +1,6 @@
-form {
-  float: right
-}
-
 .input-container {
   display: flex;
+  width: 100%;
   margin-bottom: 5px;
 }
 
@@ -15,6 +12,13 @@ form {
 ::placeholder {
   color: grey;
 }
+
+.table-container {
+  min-height: 280px;
+  max-height: 280px;
+  overflow-y: scroll;
+}
+
 
 .icon {
   border-radius: 10px 0 0 10px;

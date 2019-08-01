@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {
   MatButtonModule,
   MatChipsModule,
+  MatDialogModule,
   MatIconModule,
   MatProgressSpinnerModule,
   MatTooltipModule
@@ -25,6 +26,10 @@ import {AngularNeo4jModule} from "angular-neo4j";
 import {DataService} from "./services/data.service";
 import {ComponentInteractionService} from "./services/component-interaction.service";
 import {CytoscapeGraphComponent} from "./components/graph-view/cytoscape-graph/cytoscape-graph.component";
+import {SearchQueryHistoryDialogComponent} from "./components/search-query-history-dialog/search-query-history-dialog.component";
+import {SearchQueryHistoryTableComponent} from "./components/search-query-history-dialog/search-query-history-table/search-query-history-table.component";
+import {SearchQueryHistoryService} from "./services/search-query-history.service";
+import {InformationDialogComponent} from "./components/information-dialog/information-dialog.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +40,14 @@ import {CytoscapeGraphComponent} from "./components/graph-view/cytoscape-graph/c
     TableComponent,
     StartPageComponent,
     DashboardComponent,
-    CytoscapeGraphComponent
+    CytoscapeGraphComponent,
+    SearchQueryHistoryDialogComponent,
+    SearchQueryHistoryTableComponent,
+    InformationDialogComponent
+  ],
+  entryComponents: [
+    SearchQueryHistoryDialogComponent,
+    InformationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +67,9 @@ import {CytoscapeGraphComponent} from "./components/graph-view/cytoscape-graph/c
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
-  providers: [DataService, ComponentInteractionService],
+  providers: [DataService, ComponentInteractionService, SearchQueryHistoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

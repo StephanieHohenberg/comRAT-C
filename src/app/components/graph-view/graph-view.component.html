@@ -4,7 +4,6 @@
       <ng-template ngbPanelHeader>
         <div class="d-flex align-items-center justify-content-between">
           <h6 class="m-0">
-            <span *ngIf="inputWords.length === 0">exploration mode</span>
             <span *ngIf="inputWords.length > 0">
               TOP 3 LINKS of
               <span *ngFor="let word of inputWords; let i=index"

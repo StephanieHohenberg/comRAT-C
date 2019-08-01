@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col col-md-3"></div>
     <div class="col col-md-6">
-      <h3>Welcome <span *ngIf="scrolledDown">back </span>!</h3>
+      <h3>Welcome to comRAT-C !</h3>
       <p></p>
-      <p *ngIf="scrolledDown && hasHistory">
+      <p *ngIf="hasHistory">
         Have a look at your recent
         <a href="javascript:void(0)" (click)="openHistoryModal()">
           search queries
@@ -23,7 +23,7 @@
       </p>
       <button mat-mini-fab (click)="scrollToDashboard();" color="$word1color">
         <img [src]="IMG_LOGO"/>
-        <h4>START</h4>
+        <h5>start</h5>
       </button>
     </div>
     <div class="col col-md-3"></div>

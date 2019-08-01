@@ -1,0 +1,13 @@
+.card {
+  width: 100%;
+}
+
+/deep/ .mat-dialog-container {
+  padding: 0 !important;
+}
+
+.cancel {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}

@@ -1,0 +1,23 @@
+<div class="card">
+  <ngb-accordion #acc="ngbAccordion" activeIds="list-view-panel">
+    <ngb-panel id="list-view-panel">
+      <ng-template ngbPanelHeader>
+        <div>
+          <span><mat-icon>history</mat-icon>  Your search query history</span>
+          <span class="cancel" (click)="closeDialog()">x</span>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <app-search-query-history-table [searchQueries]="searchQueries.reverse()" [colors]="colors">
+        </app-search-query-history-table>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
+
+
+
+
+
+
+

@@ -1,26 +1,46 @@
-import {Component, Input, OnChanges, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {DataService} from "../../services/data.service";
 import {ComponentInteractionService} from "../../services/component-interaction.service";
+import {MatDialog} from "@angular/material";
+import {SearchQueryHistoryDialogComponent} from "../search-query-history-dialog/search-query-history-dialog.component";
+import {SearchQueryHistoryService} from "../../services/search-query-history.service";
+import {Subscription} from "rxjs/index";
 
 @Component({
   selector: 'app-input-view',
   templateUrl: './input-view.component.html',
   styleUrls: ['./input-view.component.css']
 })
-export class InputViewComponent implements OnInit, OnChanges {
+export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public inputWords: string[] = [];
   @Input() public colors: string[] = [];
   public options: string[] = [];
-  public hasHistory: boolean = true; //TODO:
+  public hasHistory: boolean = false;
+  public alreadyInput: boolean = false;
+  private subscription: Subscription;
 
   constructor(private componentInteractionService: ComponentInteractionService,
-              private dataService: DataService, private router: Router) {
+              private dataService: DataService,
+              private searchQueryHistoryService: SearchQueryHistoryService,
+              private router: Router,
+              public dialog: MatDialog) {
   }
 
   public ngOnInit(): void {
+    this.hasHistory = this.searchQueryHistoryService.getSearchQueries().length > 0;
+    this.subscription = this.searchQueryHistoryService.getHasQueriesSubject().subscribe(() => {
+      this.hasHistory = true;
+    });
     this.options = this.getDefaultOptions();
+  }
+
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public ngOnChanges(): void {
@@ -32,8 +52,11 @@ export class InputViewComponent implements OnInit, OnChanges {
   }
 
   public addWord(value: string, event): void {
-    if (this.inputWords.findIndex(e => e === value) >= 0 && this.options.length === 0) {
-      (<HTMLInputElement>document.getElementById("input")).value = '';
+    this.alreadyInput = false;
+    if (this.inputWords.findIndex(e => e === value) >= 0 || this.options.length === 0) {
+      if (this.inputWords.findIndex(e => e === value) >= 0) {
+        this.alreadyInput = true;
+      }
     } else if (this.inputWords.length < 3 && this.dataService.doesWordExist(value.toLowerCase())) {
       this.inputWords.push(value.toLowerCase());
       this.componentInteractionService.handleInputWordsChanged(this.inputWords);
@@ -50,18 +73,20 @@ export class InputViewComponent implements OnInit, OnChanges {
   private navigateToDashboard(): void {
     if (this.inputWords.length === 0) {
       this.router.navigate(['/words']);
-    } else if (this.inputWords.length === 1) {
-      this.router.navigate(['words'], {queryParams: {w1: this.inputWords[0]}});
-    } else if (this.inputWords.length === 2) {
-      this.router.navigate(['words'], {queryParams: {w1: this.inputWords[0], w2: this.inputWords[1]}});
     } else {
-      this.router.navigate(['words'], {
-        queryParams: {
-          w1: this.inputWords[0],
-          w2: this.inputWords[1],
-          w3: this.inputWords[2]
-        }
-      });
+      if (this.inputWords.length === 1) {
+        this.router.navigate(['words'], {queryParams: {w1: this.inputWords[0]}});
+      } else if (this.inputWords.length === 2) {
+        this.router.navigate(['words'], {queryParams: {w1: this.inputWords[0], w2: this.inputWords[1]}});
+      } else {
+        this.router.navigate(['words'], {
+          queryParams: {
+            w1: this.inputWords[0],
+            w2: this.inputWords[1],
+            w3: this.inputWords[2]
+          }
+        });
+      }
     }
   }
 
@@ -92,17 +117,9 @@ export class InputViewComponent implements OnInit, OnChanges {
     }
   }
 
-  public isPartOfInputWord(searchText: string): boolean {
-    this.inputWords.forEach(word => {
-      if (word.includes(searchText.toLowerCase())) {
-        return true;
-      }
-    });
-    return false;
-  }
 
   public openHistoryModal(): void {
-    //TODO:
+    this.dialog.open(SearchQueryHistoryDialogComponent);
   }
 
 }

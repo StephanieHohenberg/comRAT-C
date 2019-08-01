@@ -1,7 +1,6 @@
 #cy {
   position: relative;
-  min-height: 700px;
   min-width: 700px;
-  height: 100%;
   width: 100%;
+  height: 350px;
 }

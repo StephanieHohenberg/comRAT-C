@@ -3,6 +3,7 @@ import {ComponentInteractionService} from "../../services/component-interaction.
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Subscription} from "rxjs/index";
 import {DataService} from "../../services/data.service";
+import {SearchQueryHistoryService} from "../../services/search-query-history.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,12 +14,13 @@ export class DashboardComponent implements OnInit {
 
   private routeSubscription: Subscription;
   public inputWords: string[] = [];
-  public colors: string[] = ['#3aafa9', '#de0f3f', '#ffbd4a'];
+  public colors: string[] = ['#3aafa9', '#9E379F', '#ff8000'];
   public isGraphViewFullscreen = false;
 
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
               private componentInteractionService: ComponentInteractionService,
+              private searchQueryHistoryService: SearchQueryHistoryService,
               private dataService: DataService) {
   }
 
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit {
         });
         if (this.inputWords.length > 0) {
           this.componentInteractionService.handleInputWordsChanged(this.inputWords);
+          this.searchQueryHistoryService.addQueryOfWords(this.inputWords);
           this.scrollToDashboard();
         }
       });

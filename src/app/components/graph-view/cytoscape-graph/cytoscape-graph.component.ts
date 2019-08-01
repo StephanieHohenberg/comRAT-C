@@ -14,6 +14,8 @@ import {Subscription} from "rxjs/index";
 import {GraphData} from "../../../models/graph.data";
 import * as cytoscape from "cytoscape";
 import * as cxtmenu from "cytoscape-cxtmenu";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material";
+import {InformationDialogComponent} from "../../information-dialog/information-dialog.component";
 cytoscape.use(cxtmenu);
 
 @Component({
@@ -32,7 +34,8 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() select: EventEmitter<any> = new EventEmitter<any>();
 
-  public constructor(private componentInteractionService: ComponentInteractionService, private renderer: Renderer2, private el: ElementRef) {
+  public constructor(private componentInteractionService: ComponentInteractionService,
+                     private renderer: Renderer2, private el: ElementRef, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -73,8 +76,8 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
       .selector('edge')
       .css({
         'curve-style': 'bezier',
-        'opacity': 1,
-        'width': '3',
+        'opacity': 0.8,
+        'width': '2',
         'line-color': 'grey',
         'target-arrow-color': 'grey',
         'target-arrow-shape': 'triangle'
@@ -97,9 +100,7 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
         },
         {
           content: "<i class='fas fa-info-circle'></i></br>information",
-          select: function (ele) {
-            console.log(ele.id())
-          },
+          select: (ele) => this.openInformationDialog(ele),
           enabled: true
         },
         {
@@ -132,6 +133,13 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnChanges(): any {
     this.render();
+  }
+
+  public openInformationDialog(ele) {
+    console.log(ele.id());
+    let config = new MatDialogConfig();
+    let dialogRef: MatDialogRef<InformationDialogComponent> = this.dialog.open(InformationDialogComponent, config);
+    dialogRef.componentInstance.id = ele.id();
   }
 
   public render() {

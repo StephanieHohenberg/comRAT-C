@@ -1,7 +1,6 @@
 <div>
   <form>
     <div class="form-group form-inline">
-
       <div class="input-container">
         <i class='icon fas fa-filter'></i>
         <input #input type="text" id="filter"
@@ -14,33 +13,34 @@
     </div>
   </form>
 </div>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">word</th>
-    <th scope="col">
-      <span *ngIf="explorationMode">#links</span>
-      <span *ngIf="!explorationMode">strength</span>
-    </th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let data of displayedTableData">
-    <th scope="row">{{data.rank}}</th>
-    <td>
-      <span *ngIf="data.pre != undefined && data.pre"><small>{{displayedWords[0]}}&nbsp;</small></span>
-      <a [routerLink]="['/words']" [queryParams]="{w1: data.label}">
-        <ngb-highlight [result]="data.label" [term]="input.value"></ngb-highlight>
-      </a>
-      <span *ngIf="data.pre != undefined && !data.pre"><small>&nbsp;{{displayedWords[0]}}</small></span>
-    </td>
-    <td>
-      <span *ngFor="let strength of data.link_strength; let i = index">
-        <span [ngStyle]="{'color': colors[i]}">{{strength}}&nbsp;</span>
-      </span>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
+<div class="table-container">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">word</th>
+      <th scope="col">
+        <span *ngIf="explorationMode">#links</span>
+        <span *ngIf="!explorationMode">strength</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of displayedTableData">
+      <th scope="row">{{data.rank}}</th>
+      <td>
+        <span *ngIf="data.pre != undefined && data.pre"><small>{{displayedWords[0]}}&nbsp;</small></span>
+        <a [routerLink]="['/words']" [queryParams]="{w1: data.label}">
+          <ngb-highlight [result]="data.label" [term]="input.value"></ngb-highlight>
+        </a>
+        <span *ngIf="data.pre != undefined && !data.pre"><small>&nbsp;{{displayedWords[0]}}</small></span>
+      </td>
+      <td>
+        <span *ngFor="let strength of data.link_strength; let i = index">
+          <span [ngStyle]="{'color': colors[i]}">{{strength}}&nbsp;</span>
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
