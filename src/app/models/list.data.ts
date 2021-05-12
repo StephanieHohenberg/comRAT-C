@@ -20,5 +20,5 @@ export interface TableData {
   rank: number;
   link_strength: number[];
   label: string;
-  pre: boolean | undefined;
+  pre: boolean | undefined; // Refactor  position: 'pre' | 'post' | 'none'
 }

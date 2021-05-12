@@ -15,15 +15,14 @@ export class NodeData {
 
   public id;
   public label: string;
-  public colorCode: string = "grey";
-  public weight: number = 30;
+  public colorCode = 'grey';
+  public weight = 30;
 
   constructor(ID, word: string) {
     this.id = ID;
     this.label = word;
   }
 }
-
 
 export class EdgeData {
   public source;

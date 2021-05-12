@@ -1,21 +1,12 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  Renderer2
-} from "@angular/core";
-import {ComponentInteractionService} from "../../../services/component-interaction.service";
-import {Subscription} from "rxjs/index";
-import {GraphData} from "../../../models/graph.data";
-import * as cytoscape from "cytoscape";
-import * as cxtmenu from "cytoscape-cxtmenu";
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material";
-import {InformationDialogComponent} from "../../information-dialog/information-dialog.component";
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Renderer2} from '@angular/core';
+import {ComponentInteractionService} from '../../../services/component-interaction.service';
+import {Subscription} from 'rxjs/index';
+import {GraphData} from '../../../models/graph.data';
+import * as cytoscape from 'cytoscape';
+import * as cxtmenu from 'cytoscape-cxtmenu';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import {InformationDialogComponent} from '../../information-dialog/information-dialog.component';
+
 cytoscape.use(cxtmenu);
 
 @Component({
@@ -29,7 +20,7 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
   private layout: any;
   private style: any;
   private menuConfig: any;
-  private inputWordsChangedsubscription: Subscription;
+  private inputWordsChangedSubscription: Subscription;
   private cy;
 
   @Output() select: EventEmitter<any> = new EventEmitter<any>();
@@ -41,9 +32,58 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.initializeGraphConfiguration();
     this.render();
-    this.inputWordsChangedsubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(() => {
+    this.inputWordsChangedSubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(() => {
       this.render();
     });
+  }
+
+  public ngOnDestroy(): void {
+    if (this.inputWordsChangedSubscription) {
+      this.inputWordsChangedSubscription.unsubscribe();
+    }
+  }
+
+  public openInformationDialog(ele) {
+    console.log(ele.id());
+    const config = new MatDialogConfig();
+    const dialogRef: MatDialogRef<InformationDialogComponent> = this.dialog.open(InformationDialogComponent, config);
+    dialogRef.componentInstance.id = ele.id();
+  }
+
+
+  public ngOnChanges(): any {
+    this.render();
+  }
+
+  public render() {
+    const cy_container = this.renderer.selectRootElement('#cy');
+    const localselect = this.select;
+    this.cy = cytoscape({
+      container: cy_container,
+      layout: this.layout,
+      minZoom: 0.1,
+      maxZoom: 1.5,
+      style: this.style,
+      elements: this.elements,
+    });
+
+    let menu = this.cy.cxtmenu(this.menuConfig);
+
+    /**
+     cy.on('tap', 'node', function(e) {
+      let node = e.target;
+      let neighborhood = node.neighborhood().add(node);
+
+      cy.elements().addClass('faded');
+      neighborhood.removeClass('faded');
+      localselect.emit(node.data('name'));
+    });
+
+     cy.on('tap', function(e) {
+      if (e.target === cy) {
+        cy.elements().removeClass('faded');
+      }
+    }); **/
   }
 
   private initializeGraphConfiguration(): void {
@@ -94,7 +134,7 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
         {
           content: "<i class='fas fa-location-arrow'></i></br>select",
           select: function (ele) {
-            console.log(ele.id())
+            console.log(ele.id());
           },
           enabled: true
         },
@@ -106,7 +146,7 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
         {
           content: "<i class='far fa-star'></i></br>track",
           select: function (ele) {
-            console.log(ele.id())
+            console.log(ele.id());
           },
           enabled: true
         },
@@ -122,56 +162,6 @@ export class CytoscapeGraphComponent implements OnInit, OnChanges, OnDestroy {
       itemTextShadowColor: 'transparent', // the text shadow colour of the command's content
       atMouse: false // draw menu at mouse position
     };
-  }
-
-  public ngOnDestroy(): void {
-    if (this.inputWordsChangedsubscription) {
-      this.inputWordsChangedsubscription.unsubscribe();
-    }
-  }
-
-
-  public ngOnChanges(): any {
-    this.render();
-  }
-
-  public openInformationDialog(ele) {
-    console.log(ele.id());
-    let config = new MatDialogConfig();
-    let dialogRef: MatDialogRef<InformationDialogComponent> = this.dialog.open(InformationDialogComponent, config);
-    dialogRef.componentInstance.id = ele.id();
-  }
-
-  public render() {
-    let cy_container = this.renderer.selectRootElement("#cy");
-    let localselect = this.select;
-    this.cy = cytoscape({
-      container: cy_container,
-      layout: this.layout,
-      minZoom: 0.1,
-      maxZoom: 1.5,
-      style: this.style,
-      elements: this.elements,
-    });
-
-    let menu = this.cy.cxtmenu(this.menuConfig);
-
-
-    /**
-     cy.on('tap', 'node', function(e) {
-      let node = e.target;
-      let neighborhood = node.neighborhood().add(node);
-
-      cy.elements().addClass('faded');
-      neighborhood.removeClass('faded');
-      localselect.emit(node.data('name'));
-    });
-
-     cy.on('tap', function(e) {
-      if (e.target === cy) {
-        cy.elements().removeClass('faded');
-      }
-    }); **/
   }
 
 

@@ -1,11 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {DataService} from "../../services/data.service";
-import {ComponentInteractionService} from "../../services/component-interaction.service";
-import {MatDialog} from "@angular/material";
-import {SearchQueryHistoryDialogComponent} from "../search-query-history-dialog/search-query-history-dialog.component";
-import {SearchQueryHistoryService} from "../../services/search-query-history.service";
-import {Subscription} from "rxjs/index";
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {DataService} from '../../services/data.service';
+import {ComponentInteractionService} from '../../services/component-interaction.service';
+import {MatDialog} from '@angular/material';
+import {SearchQueryHistoryDialogComponent} from '../search-query-history-dialog/search-query-history-dialog.component';
+import {SearchQueryHistoryService} from '../../services/search-query-history.service';
+import {Subscription} from 'rxjs/index';
 
 @Component({
   selector: 'app-input-view',
@@ -17,8 +17,8 @@ export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public inputWords: string[] = [];
   @Input() public colors: string[] = [];
   public options: string[] = [];
-  public hasHistory: boolean = false;
-  public alreadyInput: boolean = false;
+  public hasHistory = false;
+  public alreadyInput = false;
   private subscription: Subscription;
 
   constructor(private componentInteractionService: ComponentInteractionService,
@@ -36,8 +36,7 @@ export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
     this.options = this.getDefaultOptions();
   }
 
-
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -45,8 +44,8 @@ export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnChanges(): void {
     let searchText = '';
-    if ((<HTMLInputElement>document.getElementById("input"))) {
-      searchText = (<HTMLInputElement>document.getElementById("input")).value;
+    if ((<HTMLInputElement>document.getElementById('input'))) {
+      searchText = (<HTMLInputElement>document.getElementById('input')).value;
     }
     this.getFilteredData(searchText);
   }
@@ -61,7 +60,7 @@ export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
       this.inputWords.push(value.toLowerCase());
       this.componentInteractionService.handleInputWordsChanged(this.inputWords);
       this.navigateToDashboard();
-      (<HTMLInputElement>document.getElementById("input")).value = '';
+      (<HTMLInputElement>document.getElementById('input')).value = '';
     }
 
     if (event) {
@@ -102,9 +101,8 @@ export class InputViewComponent implements OnInit, OnChanges, OnDestroy {
     this.navigateToDashboard();
   }
 
-
   private getDefaultOptions() {
-    return this.dataService.getAllExistingWords().sort();
+    return this.dataService.getWords().sort();
   }
 
   public getFilteredData(searchText: string): void {

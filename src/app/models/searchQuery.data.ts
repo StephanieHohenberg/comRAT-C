@@ -3,7 +3,7 @@ export class SearchQuery {
   public words: string[] = [];
 
   constructor(words: string[]) {
-    this.words = words;
+    this.words = [...words];
     this.timestamp = new Date();
   }
 }

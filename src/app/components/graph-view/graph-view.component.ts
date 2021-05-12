@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
-import {GraphData} from "../../models/graph.data";
-import {Subscription} from "rxjs/index";
-import {ComponentInteractionService} from "../../services/component-interaction.service";
-import {DataService} from "../../services/data.service";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {GraphData} from '../../models/graph.data';
+import {Subscription} from 'rxjs/index';
+import {ComponentInteractionService} from '../../services/component-interaction.service';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'app-graph-view',
@@ -12,7 +12,7 @@ import {DataService} from "../../services/data.service";
 export class GraphViewComponent implements OnInit, OnDestroy {
 
   public graphData: GraphData;
-  private inputWordsChangedsubscription: Subscription;
+  private inputWordsChangedSubscription: Subscription;
 
 
   @Output() private viewSizeChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -26,7 +26,7 @@ export class GraphViewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.graphData = this.dataService.getGraphDataOfWords(this.inputWords);
-    this.inputWordsChangedsubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(
+    this.inputWordsChangedSubscription = this.componentInteractionService.getInputWordsChangedObservable().subscribe(
       (words: string[]) => {
         this.inputWords = words;
         if (this.inputWords.length === 0) {
@@ -39,8 +39,8 @@ export class GraphViewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.inputWordsChangedsubscription) {
-      this.inputWordsChangedsubscription.unsubscribe();
+    if (this.inputWordsChangedSubscription) {
+      this.inputWordsChangedSubscription.unsubscribe();
     }
   }
 

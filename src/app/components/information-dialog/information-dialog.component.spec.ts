@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {InformationDialogComponent} from "./information-dialog.component";
+import {InformationDialogComponent} from './information-dialog.component';
 
 describe('InformationDialogComponent', () => {
   let component: InformationDialogComponent;

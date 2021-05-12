@@ -12,10 +12,12 @@
     <div class="col col-md-4 col-sm-12" *ngIf="!isGraphViewFullscreen">
       <app-list-view [inputWords]="inputWords" [colors]="colors"></app-list-view>
     </div>
-    <div class="col col-md-8 col-sm-12"
-         [ngClass]="{'col-md-12': isGraphViewFullscreen, 'col-md-8': !isGraphViewFullscreen}">
-      <app-graph-view [inputWords]="inputWords" (viewSizeChanged)="changePanelSize($event)"
-                      [colors]="colors"></app-graph-view>
+    <div [ngClass]="{'col-md-12': isGraphViewFullscreen, 'col-md-8': !isGraphViewFullscreen}"
+         class="col col-md-8 col-sm-12">
+      <app-graph-view (viewSizeChanged)="changePanelSize($event)"
+                      [colors]="colors"
+                      [inputWords]="inputWords">
+      </app-graph-view>
     </div>
   </div>
 </div>

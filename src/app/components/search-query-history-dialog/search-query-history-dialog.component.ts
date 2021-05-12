@@ -1,7 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {SearchQueryHistoryService} from "../../services/search-query-history.service";
-import {SearchQuery} from "../../models/searchQuery.data";
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {SearchQueryHistoryService} from '../../services/search-query-history.service';
+import {SearchQuery} from '../../models/searchQuery.data';
+import {APP_COLORS} from '../../../app.const';
 
 @Component({
   selector: 'app-search-query-history-dialog',
@@ -10,9 +11,8 @@ import {SearchQuery} from "../../models/searchQuery.data";
 })
 export class SearchQueryHistoryDialogComponent implements OnInit {
 
+  public readonly colors: string[] = APP_COLORS;
   public searchQueries: SearchQuery[] = [];
-  public colors: string[] = ['#3aafa9', '#9E379F', '#ff8000'];
-//TODO: color service
 
   constructor(public dialogRef: MatDialogRef<SearchQueryHistoryDialogComponent>,
               private searchQueryHistoryService: SearchQueryHistoryService) {

@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {SearchQuery} from "../models/searchQuery.data";
-import {Subject} from "rxjs/index";
+import {Injectable} from '@angular/core';
+import {SearchQuery} from '../models/searchQuery.data';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +19,15 @@ export class SearchQueryHistoryService {
 
   public getHasQueriesSubject(): Subject<boolean> {
     return this.hasQueriesSubject;
+    // TODO Observable ?  + next testing
   }
 
 
   public addQueryOfWords(words: string[]): void {
-    this.hasQueriesSubject.next(true);
-    this.searchQueries.push(new SearchQuery(words));
+    if (this.searchQueries.length === 1) {
+      this.hasQueriesSubject.next(true);
+    }
+    this.searchQueries = [...this.searchQueries, new SearchQuery(words)];
   }
 
 

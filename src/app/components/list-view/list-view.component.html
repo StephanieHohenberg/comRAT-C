@@ -8,14 +8,14 @@
                     type="button" class="btn btn-sm btn-outline-light ml-2 active"
                     [ngStyle]="hovered === i ? {'background-color': transparent, 'border-color': colors[i], 'color': colors[i]}
                                                 : {'background-color': colors[i], 'border-color': colors[i], 'color': 'white'}"
-                    (mouseover)="hovered = i" (mouseout)="hovered = -1" (click)="toogleWordDisplayStatus(i)">
+                    (click)="toggleWordDisplayStatus(i)" (mouseout)="hovered = -1" (mouseover)="hovered = i">
               {{word}}
             </button>
             <button *ngIf="wordsDisplayStatus[i] === false"
                     type="button" class="btn btn-sm btn-outline-light ml-2"
                     [ngStyle]="hovered === i+10 ? {'background-color': colors[i], 'border-color': colors[i], 'color': 'white'}
                                                 : {'background-color': transparent, 'border-color': colors[i], 'color': colors[i]}"
-                    (mouseover)="hovered = i+10" (mouseout)="hovered = -1" (click)="toogleWordDisplayStatus(i)">
+                    (click)="toggleWordDisplayStatus(i)" (mouseout)="hovered = -1" (mouseover)="hovered = i+10">
               {{word}}
             </button>
           </span>

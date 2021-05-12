@@ -1,6 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {MatDialogRef} from "@angular/material";
-import {DataService} from "../../services/data.service";
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
+import {DataService} from '../../services/data.service';
+import {APP_COLORS} from '../../../app.const';
 
 @Component({
   selector: 'app-information-dialog',
@@ -9,17 +10,17 @@ import {DataService} from "../../services/data.service";
 })
 export class InformationDialogComponent implements OnInit {
 
+  public readonly colors: string[] = APP_COLORS;
   public id: string;
   public word: string;
-  public colors: string[] = ['#3aafa9', '#9E379F', '#ff8000'];
-//TODO: color service
+
 
   constructor(public dialogRef: MatDialogRef<InformationDialogComponent>,
               private dataService: DataService) {
   }
 
   ngOnInit() {
-    this.word = this.dataService.getAllExistingWords()[this.id];
+    this.word = this.dataService.getWords()[this.id];
   }
 
   closeDialog(): void {
