@@ -42,7 +42,7 @@ export class StartPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private scrollToDashboard(): void {
+  public scrollToDashboard(): void {
     this.scrolledDown = true;
     const element = document.getElementById('dashboard');
     element.scrollIntoView({block: 'end', behavior: 'smooth'});

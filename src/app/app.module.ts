@@ -18,8 +18,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_ROUTES} from '../app.const';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {StartPageComponent} from './pages/start-page/start-page.component';
 import {AngularNeo4jModule} from 'angular-neo4j';
@@ -30,6 +29,11 @@ import {SearchQueryHistoryDialogComponent} from './components/search-query-histo
 import {SearchQueryHistoryTableComponent} from './components/search-query-history-dialog/search-query-history-table/search-query-history-table.component';
 import {SearchQueryHistoryService} from './services/search-query-history.service';
 import {InformationDialogComponent} from './components/information-dialog/information-dialog.component';
+
+export const APP_ROUTES: Routes = [
+  {path: '', component: DashboardComponent},
+  {path: 'words', component: DashboardComponent},
+];
 
 @NgModule({
   declarations: [
@@ -71,3 +75,4 @@ import {InformationDialogComponent} from './components/information-dialog/inform
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

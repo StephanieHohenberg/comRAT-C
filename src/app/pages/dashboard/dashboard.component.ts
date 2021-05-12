@@ -19,7 +19,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public isGraphViewFullscreen = false;
 
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private componentInteractionService: ComponentInteractionService,
               private searchQueryHistoryService: SearchQueryHistoryService,
               private dataService: DataService) {
